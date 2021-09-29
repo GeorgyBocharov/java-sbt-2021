@@ -23,11 +23,20 @@ public class GarageImpl implements Garage {
 
     public static final int VELOCITY_QUEUE_SIZE = 3;
 
+    private static final int UNKNOWN_CAR_ID = -1;
+
     private final Map<String, Set<Car>> brandToCars = new HashMap<>();
     private final Map<Owner, Set<Car>> ownerToCars = new HashMap<>();
     private final Map<Long, Car> carMap = new HashMap<>();
-    private final TreeSet<Car> carsByPower = new TreeSet<>(Comparator.comparing(Car::getPower));
-    private final Queue<Car> carsByMaxVelocity = new PriorityQueue<>(VELOCITY_QUEUE_SIZE, Comparator.comparing(Car::getMaxVelocity));
+
+    private final TreeSet<Car> carsByPower = new TreeSet<>(
+            Comparator.comparing(Car::getPower).thenComparing(Comparator.comparing(Car::getCarId).reversed())
+    );
+
+    private final Queue<Car> carsByMaxVelocity = new PriorityQueue<>(
+            VELOCITY_QUEUE_SIZE,
+            Comparator.comparing(Car::getMaxVelocity)
+    );
 
 
     @Override
@@ -48,7 +57,7 @@ public class GarageImpl implements Garage {
 
     @Override
     public Collection<Car> carsWithPowerMoreThan(int power) {
-        return carsByPower.tailSet(Car.builder().power(power).build(), false);
+        return carsByPower.tailSet(Car.builder().carId(UNKNOWN_CAR_ID).power(power).build(), false);
     }
 
     // O(1)

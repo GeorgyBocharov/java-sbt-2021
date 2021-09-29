@@ -18,6 +18,8 @@ import static utils.GarageTestUtils.bmwFirst;
 import static utils.GarageTestUtils.bmwSecond;
 import static utils.GarageTestUtils.firstOwner;
 import static utils.GarageTestUtils.firstOwnerCars;
+import static utils.GarageTestUtils.hondaFirst;
+import static utils.GarageTestUtils.hondaSecond;
 import static utils.GarageTestUtils.meanCarNumberPerOwner;
 import static utils.GarageTestUtils.secondOwner;
 import static utils.GarageTestUtils.secondOwnerCars;
@@ -51,7 +53,7 @@ public class GarageImplStatisticFunctionsTest {
         Assertions.assertEquals(GarageImpl.VELOCITY_QUEUE_SIZE, top3ByVelocity.size());
         Assertions.assertTrue(top3ByVelocity.contains(bmwFirst));
         Assertions.assertTrue(top3ByVelocity.contains(bmwSecond));
-        Assertions.assertTrue(top3ByVelocity.contains(toyota));
+        Assertions.assertTrue(top3ByVelocity.contains(hondaFirst));
     }
 
     @Test
@@ -63,11 +65,11 @@ public class GarageImplStatisticFunctionsTest {
     @ParameterizedTest
     @MethodSource("provideDataForCarsByBrandTest")
     public void allCarsOfBrandTest(String brand, List<Car> expectedCars) {
-        Collection<Car> bmwCars = garage.allCarsOfBrand(brand);
+        Collection<Car> cars = garage.allCarsOfBrand(brand);
 
-        Assertions.assertNotNull(bmwCars);
-        Assertions.assertEquals(expectedCars.size(), bmwCars.size());
-        expectedCars.forEach(car -> Assertions.assertTrue(bmwCars.contains(car)));
+        Assertions.assertNotNull(cars);
+        Assertions.assertEquals(expectedCars.size(), cars.size());
+        expectedCars.forEach(car -> Assertions.assertTrue(cars.contains(car)));
     }
 
     @ParameterizedTest
@@ -100,28 +102,30 @@ public class GarageImplStatisticFunctionsTest {
         return Stream.of(
                 Arguments.of(bmwFirst.getBrand(), firstOwner.getAge()),
                 Arguments.of(vaz.getBrand(), secondOwner.getAge()),
-                Arguments.of(toyota.getBrand(), secondOwner.getAge())
+                Arguments.of(toyota.getBrand(), secondOwner.getAge()),
+                Arguments.of(hondaFirst.getBrand(), Math.round((firstOwner.getAge() + secondOwner.getAge()) / 2f))
         );
     }
 
     private static Stream<Arguments> provideDataForCarsByOwnersTest() {
         return Stream.of(
-                Arguments.of(firstOwner, List.of(bmwFirst, bmwSecond)),
-                Arguments.of(secondOwner, List.of(vaz, toyota))
+                Arguments.of(firstOwner, List.of(bmwFirst, bmwSecond, hondaFirst)),
+                Arguments.of(secondOwner, List.of(vaz, toyota, hondaSecond))
         );
     }
 
     private static Stream<Arguments> provideDataForCarsByPowerTest() {
         return Stream.of(
-                Arguments.of(bmwSecond.getPower() - 1, List.of(bmwFirst, bmwSecond, toyota)),
-                Arguments.of(vaz.getPower(), List.of(bmwFirst, bmwSecond, toyota)),
-                Arguments.of(vaz.getPower() - 1, List.of(vaz, bmwFirst, bmwSecond, toyota))
+                Arguments.of(bmwSecond.getPower() - 1, List.of(bmwFirst, bmwSecond, toyota, hondaFirst)),
+                Arguments.of(vaz.getPower(), List.of(bmwFirst, bmwSecond, toyota, hondaFirst, hondaSecond)),
+                Arguments.of(vaz.getPower() - 1, List.of(vaz, bmwFirst, bmwSecond, toyota, hondaFirst, hondaSecond))
         );
     }
 
     private static Stream<Arguments> provideDataForCarsByBrandTest() {
         return Stream.of(
                 Arguments.of(bmwFirst.getBrand(), List.of(bmwFirst, bmwSecond)),
+                Arguments.of(hondaFirst.getBrand(), List.of(hondaFirst, hondaSecond)),
                 Arguments.of(vaz.getBrand(), List.of(vaz)),
                 Arguments.of(toyota.getBrand(), List.of(toyota))
         );
