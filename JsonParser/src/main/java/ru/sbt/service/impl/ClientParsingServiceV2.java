@@ -4,15 +4,14 @@ import ru.sbt.clients.AbstractClient;
 import ru.sbt.clients.HoldingClient;
 import ru.sbt.clients.IndividualClient;
 import ru.sbt.clients.LegalEntityClient;
+
 import ru.sbt.parser.JsonParser;
-import ru.sbt.service.ClientParsingService;
 import ru.sbt.service.error.ClientParsingException;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Matcher;
 
-public class ClientParsingServiceV2 implements ClientParsingService {
+public class ClientParsingServiceV2 extends AbstractClientParsingService {
 
     private static final String HOLDING = "HOLDING";
     private static final String INDIVIDUAL = "INDIVIDUAL";
@@ -20,16 +19,16 @@ public class ClientParsingServiceV2 implements ClientParsingService {
 
     @Override
     public Optional<AbstractClient> parseClientFromJson(String jsonString) {
-        Matcher matcher = clientTypePattern.matcher(jsonString);
-        String clientTypeString = null;
-        if (matcher.find()) {
-            clientTypeString = matcher.group(1);
-        } else {
-            throw new ClientParsingException("Failed to find clientType tag in json string");
-        }
+        String clientTypeString = getClientTypeString(jsonString);
 
         AbstractClient abstractClient;
         Map<String, Object> jsonStructure = JsonParser.parseJsonStringToMap(jsonString);
+        abstractClient = getAbstractClient(clientTypeString, jsonStructure);
+        return Optional.ofNullable(abstractClient);
+    }
+
+    private AbstractClient getAbstractClient(String clientTypeString, Map<String, Object> jsonStructure) {
+        AbstractClient abstractClient;
         switch (clientTypeString) {
             case HOLDING: {
                 abstractClient = HoldingClient.parseFromJson(jsonStructure);
@@ -47,6 +46,6 @@ public class ClientParsingServiceV2 implements ClientParsingService {
                 throw new ClientParsingException("Failed to determine clientType");
             }
         }
-        return abstractClient != null ? Optional.of(abstractClient) : Optional.empty();
+        return abstractClient;
     }
 }

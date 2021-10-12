@@ -1,28 +1,28 @@
 package ru.sbt.clients;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Map;
 import java.util.Objects;
 
 @Getter
-@Setter
 public class IndividualClient extends AbstractClient {
-    private String inn;
+    private final String inn;
 
-    public IndividualClient() {
-        super(ClientType.INDIVIDUAL);
+    public IndividualClient(String name, String inn) {
+        super(ClientType.INDIVIDUAL, name);
+        this.inn = inn;
     }
 
     public static IndividualClient parseFromJson(Map<String, Object> jsonStructure) {
+        if (jsonStructure == null) {
+            return null;
+        }
 
-        IndividualClient individualClient = new IndividualClient();
+        String name = (String) jsonStructure.get("name");
+        String inn = (String) jsonStructure.get("inn");
 
-        individualClient.name = (String) jsonStructure.get("name");
-        individualClient.inn = (String) jsonStructure.get("inn");
-
-        return individualClient;
+        return new IndividualClient(name, inn);
     }
 
     @Override
@@ -31,21 +31,21 @@ public class IndividualClient extends AbstractClient {
         if (!(o instanceof IndividualClient)) return false;
         IndividualClient that = (IndividualClient) o;
         return Objects.equals(inn, that.inn) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(clientType, that.clientType);
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getClientType(), that.getClientType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(inn, clientType, name);
+        return Objects.hash(inn, getClientType(), getName());
     }
 
     @Override
     public String toString() {
         return "IndividualClient{" +
                 "inn='" + inn + '\'' +
-                ", clientType=" + clientType +
-                ", name='" + name + '\'' +
+                ", clientType=" + getClientType() +
+                ", name='" + getName() + '\'' +
                 '}';
     }
 }

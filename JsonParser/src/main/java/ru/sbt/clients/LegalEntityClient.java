@@ -1,7 +1,6 @@
 package ru.sbt.clients;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import ru.sbt.parser.JsonParser;
 
@@ -11,13 +10,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 public class LegalEntityClient extends AbstractClient {
-    private boolean isForeign;
-    private List<IndividualClient> owners;
+    private final boolean isForeign;
+    private final List<IndividualClient> owners;
 
-    public LegalEntityClient() {
-        super(ClientType.LEGAL_ENTITY);
+    public LegalEntityClient(String name, boolean isForeign, List<IndividualClient> owners) {
+        super(ClientType.LEGAL_ENTITY, name);
+        this.isForeign = isForeign;
+        this.owners = owners;
     }
 
     public static LegalEntityClient parseFromJson(Map<String, Object> jsonStructure) {
@@ -25,17 +25,14 @@ public class LegalEntityClient extends AbstractClient {
             return null;
         }
 
-        LegalEntityClient legalEntityClient = new LegalEntityClient();
-
-        legalEntityClient.name = (String) jsonStructure.get("name");
-        legalEntityClient.isForeign =  Boolean.parseBoolean("isForeign");
-
-        legalEntityClient.owners = JsonParser.parseObjectToObjectList(jsonStructure.get("owners"))
+        String name = (String) jsonStructure.get("name");
+        boolean isForeign =  Boolean.parseBoolean("isForeign");
+        List<IndividualClient> owners = JsonParser.parseObjectToObjectList(jsonStructure.get("owners"))
                 .stream()
                 .map(IndividualClient::parseFromJson)
                 .collect(Collectors.toList());
 
-        return legalEntityClient;
+        return new LegalEntityClient(name, isForeign, owners);
     }
 
     @Override
@@ -45,13 +42,13 @@ public class LegalEntityClient extends AbstractClient {
         LegalEntityClient that = (LegalEntityClient) o;
         return isForeign == that.isForeign &&
                 Objects.equals(owners, that.owners) &&
-                Objects.equals(clientType, that.clientType) &&
-                Objects.equals(name, that.name);
+                Objects.equals(getClientType(), that.getClientType()) &&
+                Objects.equals(getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isForeign, owners, clientType, name);
+        return Objects.hash(isForeign, owners, getClientType(), getName());
     }
 
     @Override
@@ -59,8 +56,8 @@ public class LegalEntityClient extends AbstractClient {
         return "LegalEntityClient{" +
                 "isForeign=" + isForeign +
                 ", owners=" + owners +
-                ", clientType=" + clientType +
-                ", name='" + name + '\'' +
+                ", clientType=" + getClientType() +
+                ", name='" + getName() + '\'' +
                 '}';
     }
 }

@@ -57,15 +57,14 @@ public class ClientParsingServiceV1Test {
     }
 
     private static Stream<Arguments> provideTestDataAndClientServiceImpls() {
-        IndividualClient individualClient = new IndividualClient();
-        individualClient.setInn("12345325632");
-        individualClient.setName("George");
+        IndividualClient individualClient = new IndividualClient( "George", "12345325632");
 
-        HoldingClient holdingClient = new HoldingClient();
-        holdingClient.setName("Samokat");
-        holdingClient.setHoldingName("Sber");
-        holdingClient.setHoldingMemberNbr(10);
-        holdingClient.setHoldingMemberNames(List.of("LitRes", "PIK Group", "Sber Mobile", "2 Gis"));
+        HoldingClient holdingClient = new HoldingClient(
+                "Samokat",
+                "Sber",
+                10,
+                List.of("LitRes", "PIK Group", "Sber Mobile", "2 Gis")
+        );
 
 
         return Stream.of(

@@ -1,33 +1,35 @@
 package ru.sbt.clients;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @Getter
-@Setter
 public class HoldingClient extends AbstractClient {
-    private String holdingName;
-    private int holdingMemberNbr;
-    private List<String> holdingMemberNames;
+    private final String holdingName;
+    private final int holdingMemberNbr;
+    private final List<String> holdingMemberNames;
 
-    public HoldingClient() {
-        super(ClientType.HOLDING);
+    public HoldingClient(String name, String holdingName, int holdingMemberNbr, List<String> holdingMemberNames) {
+        super(ClientType.HOLDING, name);
+        this.holdingName = holdingName;
+        this.holdingMemberNbr = holdingMemberNbr;
+        this.holdingMemberNames = holdingMemberNames;
     }
 
     public static HoldingClient parseFromJson(Map<String, Object> jsonStructure) {
+        if (jsonStructure == null) {
+            return null;
+        }
 
-        HoldingClient holdingClient = new HoldingClient();
+        String name = (String) jsonStructure.get("name");
+        String holdingName = (String) jsonStructure.get("holdingName");
+        int holdingMemberNbr = Integer.parseInt((String) jsonStructure.get("holdingMemberNbr"));
+        List<String> holdingMemberNames =  (List<String>) jsonStructure.get("holdingMemberNames");
 
-        holdingClient.name = (String) jsonStructure.get("name");
-        holdingClient.holdingName = (String) jsonStructure.get("holdingName");
-        holdingClient.holdingMemberNbr = Integer.parseInt((String) jsonStructure.get("holdingMemberNbr"));
-        holdingClient.holdingMemberNames =  (List<String>) jsonStructure.get("holdingMemberNames");
-
-        return holdingClient;
+        return new HoldingClient(name, holdingName, holdingMemberNbr, holdingMemberNames);
     }
 
     @Override
@@ -37,14 +39,14 @@ public class HoldingClient extends AbstractClient {
         HoldingClient that = (HoldingClient) o;
         return holdingMemberNbr == that.holdingMemberNbr &&
                 Objects.equals(holdingName, that.holdingName) &&
-                Objects.equals(clientType, that.clientType) &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(getClientType(), that.getClientType()) &&
+                Objects.equals(getName(), that.getName()) &&
                 Objects.equals(holdingMemberNames, that.holdingMemberNames);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(holdingName, holdingMemberNbr, holdingMemberNames, clientType, name);
+        return Objects.hash(holdingName, holdingMemberNbr, holdingMemberNames, getClientType(), getName());
     }
 
     @Override
@@ -53,8 +55,8 @@ public class HoldingClient extends AbstractClient {
                 "holdingName='" + holdingName + '\'' +
                 ", holdingMemberNbr=" + holdingMemberNbr +
                 ", holdingMemberNames=" + holdingMemberNames +
-                ", clientType=" + clientType +
-                ", name='" + name + '\'' +
+                ", clientType=" + getClientType() +
+                ", name='" + getName() + '\'' +
                 '}';
     }
 }

@@ -1,17 +1,12 @@
 package ru.sbt.clients;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public abstract class AbstractClient {
-    protected ClientType clientType;
-    protected String name;
+    private final ClientType clientType;
+    private final String name;
 
-    public AbstractClient(ClientType clientType) {
-        this.clientType = clientType;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
