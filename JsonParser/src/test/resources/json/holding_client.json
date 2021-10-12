@@ -1,0 +1,7 @@
+{
+  "name": "Samokat",
+  "holdingName": "Sber",
+  "clientType": "HOLDING",
+  "holdingMemberNbr": 10,
+  "holdingMemberNames": ["LitRes", "PIK Group", "Sber Mobile", "2 Gis"]
+}

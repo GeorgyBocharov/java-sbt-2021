@@ -1,0 +1,17 @@
+{
+  "name": "JG company",
+  "isForeign": true,
+  "clientType": "LEGAL_ENTITY",
+  "owners": [
+    {
+      "name": "George",
+      "inn": "12345325632",
+      "clientType": "INDIVIDUAL"
+    },
+    {
+      "name": "Julia",
+      "inn": "12345325637",
+      "clientType": "INDIVIDUAL"
+    }
+  ]
+}
