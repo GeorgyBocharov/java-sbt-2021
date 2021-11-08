@@ -36,11 +36,9 @@ public class GarageImplAddRemoveTest {
     @Test
     public void testRemoveCar() {
 
-
         Car removedCar = garage.removeCar(car.getCarId());
         Assertions.assertNotNull(removedCar);
         Assertions.assertEquals(car, removedCar);
-
 
         System.out.println(garage);
         Assertions.assertTrue(garage.getCarsByMaxVelocity().isEmpty());

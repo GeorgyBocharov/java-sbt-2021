@@ -63,7 +63,7 @@ public class GarageImplStatisticFunctionsTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideDataForCarsByBrandTest")
+    @MethodSource("brandToAllCarsWithItArgs")
     public void allCarsOfBrandTest(String brand, List<Car> expectedCars) {
         Collection<Car> cars = garage.allCarsOfBrand(brand);
 
@@ -73,7 +73,7 @@ public class GarageImplStatisticFunctionsTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideDataForCarsByPowerTest")
+    @MethodSource("powerToAllMorePowerfulCarsArgs")
     public void carsWithPowerMoreThanTest(int power, List<Car> expectedCars) {
         Collection<Car> carsByPower = garage.carsWithPowerMoreThan(power);
         Assertions.assertNotNull(carsByPower);
@@ -82,7 +82,7 @@ public class GarageImplStatisticFunctionsTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideDataForCarsByOwnersTest")
+    @MethodSource("ownerToAllHisCarsArgs")
     public void allCarsOfOwnerTest(Owner owner, List<Car> expectedCars) {
         Collection<Car> carsByOwner = garage.allCarsOfOwner(owner);
         Assertions.assertNotNull(carsByOwner);
@@ -91,14 +91,14 @@ public class GarageImplStatisticFunctionsTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideDataForMeanAgeByBrandTest")
+    @MethodSource("brandToAverageOwnerAgeArgs")
     public void meanOwnersAgeOfCarBrandTest(String brand, int expected) {
         int actual = garage.meanOwnersAgeOfCarBrand(brand);
         Assertions.assertEquals(expected, actual);
     }
 
 
-    private static Stream<Arguments> provideDataForMeanAgeByBrandTest() {
+    private static Stream<Arguments> brandToAverageOwnerAgeArgs() {
         return Stream.of(
                 Arguments.of(bmwFirst.getBrand(), firstOwner.getAge()),
                 Arguments.of(vaz.getBrand(), secondOwner.getAge()),
@@ -107,14 +107,14 @@ public class GarageImplStatisticFunctionsTest {
         );
     }
 
-    private static Stream<Arguments> provideDataForCarsByOwnersTest() {
+    private static Stream<Arguments> ownerToAllHisCarsArgs() {
         return Stream.of(
                 Arguments.of(firstOwner, List.of(bmwFirst, bmwSecond, hondaFirst)),
                 Arguments.of(secondOwner, List.of(vaz, toyota, hondaSecond))
         );
     }
 
-    private static Stream<Arguments> provideDataForCarsByPowerTest() {
+    private static Stream<Arguments> powerToAllMorePowerfulCarsArgs() {
         return Stream.of(
                 Arguments.of(bmwSecond.getPower() - 1, List.of(bmwFirst, bmwSecond, toyota, hondaFirst)),
                 Arguments.of(vaz.getPower(), List.of(bmwFirst, bmwSecond, toyota, hondaFirst, hondaSecond)),
@@ -122,7 +122,7 @@ public class GarageImplStatisticFunctionsTest {
         );
     }
 
-    private static Stream<Arguments> provideDataForCarsByBrandTest() {
+    private static Stream<Arguments> brandToAllCarsWithItArgs() {
         return Stream.of(
                 Arguments.of(bmwFirst.getBrand(), List.of(bmwFirst, bmwSecond)),
                 Arguments.of(hondaFirst.getBrand(), List.of(hondaFirst, hondaSecond)),

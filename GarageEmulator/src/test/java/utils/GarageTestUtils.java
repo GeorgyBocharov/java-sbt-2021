@@ -17,28 +17,32 @@ public final class GarageTestUtils {
             .ownerId(2).age(25).name("name2").lastName("lastName2")
             .build();
 
-    public static final Car bmwFirst = Car.builder()
-            .carId(1).brand("BMW").modelName("GT").power(500).maxVelocity(270).ownerId(firstOwner.getOwnerId())
+    private static final Car.CarBuilder firstOwnerCarBuilder = Car.builder().ownerId(firstOwner.getOwnerId());
+    private static final Car.CarBuilder secondOwnerCarBuilder = Car.builder().ownerId(secondOwner.getOwnerId());
+
+    public static final Car bmwFirst = firstOwnerCarBuilder
+            .carId(1).brand("BMW").modelName("GT").power(500).maxVelocity(270)
             .build();
 
-    public static final Car bmwSecond = Car.builder()
-            .carId(2).brand("BMW").modelName("M3").power(190).maxVelocity(238).ownerId(firstOwner.getOwnerId())
+    public static final Car bmwSecond = firstOwnerCarBuilder
+            .carId(2).brand("BMW").modelName("M3").power(190).maxVelocity(238)
             .build();
 
-    public static final Car vaz = Car.builder()
-            .carId(3).brand("VAZ").modelName("2109").power(78).maxVelocity(155).ownerId(secondOwner.getOwnerId())
+    public static final Car hondaFirst = firstOwnerCarBuilder
+            .carId(5).brand("HONDA").modelName("NSX").power(249).maxVelocity(250)
             .build();
 
-    public static final Car toyota = Car.builder()
-            .carId(4).brand("TOYOTA").modelName("CAMRY 3.5").power(249).maxVelocity(220).ownerId(secondOwner.getOwnerId())
+    public static final Car vaz = secondOwnerCarBuilder
+            .carId(3).brand("VAZ").modelName("2109").power(78).maxVelocity(155)
             .build();
 
-    public static final Car hondaFirst = Car.builder()
-            .carId(5).brand("HONDA").modelName("NSX").power(249).maxVelocity(250).ownerId(firstOwner.getOwnerId())
+    public static final Car toyota = secondOwnerCarBuilder
+            .carId(4).brand("TOYOTA").modelName("CAMRY 3.5").power(249).maxVelocity(220)
             .build();
 
-    public static final Car hondaSecond = Car.builder()
-            .carId(6).brand("HONDA").modelName("CIVIC").power(150).maxVelocity(200).ownerId(secondOwner.getOwnerId()).build();
+    public static final Car hondaSecond = secondOwnerCarBuilder
+            .carId(6).brand("HONDA").modelName("CIVIC").power(150).maxVelocity(200)
+            .build();
 
 
     public static final List<Car> firstOwnerCars = List.of(bmwFirst, bmwSecond, hondaFirst);
