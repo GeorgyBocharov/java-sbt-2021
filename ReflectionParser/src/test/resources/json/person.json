@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "name": "John",
+  "lastName": null,
+  "male": true,
+  "parents": [{
+    "id": 2,
+    "name": "Father",
+    "lastName": "Williams",
+    "male": true,
+    "parents": null
+  }]
+}
