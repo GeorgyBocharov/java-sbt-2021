@@ -1,11 +1,13 @@
 package ru.sbt.reflection.parser.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +18,8 @@ public class Person {
     private Long id;
     private String name;
     private String lastName;
-    @JsonProperty("isMale")
-    private boolean isMale;
-    private Person parent;
+    private boolean male;
+    private List<Person> parents;
+    private Set<String> emails;
 }
 

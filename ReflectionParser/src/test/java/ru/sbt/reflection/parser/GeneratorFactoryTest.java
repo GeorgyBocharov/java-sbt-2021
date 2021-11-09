@@ -21,7 +21,7 @@ public class GeneratorFactoryTest {
     @Test
     public void testCreateJsonGenerator() throws IOException {
         Person expectedPerson = mapper.readValue(loadFile(PERSON_JSON), Person.class);
-        JsonGenerator<Person> personJsonGenerator = GeneratorFactory.createJsonGenerator(Person.class);
+        JsonGenerator<Person> personJsonGenerator = GeneratorFactory.createJsonGenerator(expectedPerson);
         Assertions.assertNotNull(personJsonGenerator);
         String personJson = personJsonGenerator.toJson(expectedPerson);
         Person actualPerson = mapper.readValue(personJson, Person.class);

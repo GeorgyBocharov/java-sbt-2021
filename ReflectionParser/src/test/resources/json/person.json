@@ -2,12 +2,12 @@
   "id": 1,
   "name": "John",
   "lastName": null,
-  "isMale": true,
-  "parent": {
+  "male": true,
+  "parents": [{
     "id": 2,
     "name": "Father",
     "lastName": "Williams",
-    "isMale": true,
-    "parent": null
-  }
+    "male": true,
+    "parents": null
+  }]
 }
