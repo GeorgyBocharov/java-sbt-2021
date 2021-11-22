@@ -1,8 +1,8 @@
 package ru.sbt;
 
 import ru.sbt.classloader.CustomClassloader;
-import ru.sbt.decoder.ClassFileBytesDecoder;
-import ru.sbt.decoder.EncryptedBytesDecoder;
+import ru.sbt.decoder.ClassInfoBytesDecoderImpl;
+import ru.sbt.decoder.ClassInfoBytesDecoder;
 import ru.sbt.web.loader.WebDataLoader;
 import ru.sbt.web.loader.WebDataLoaderImpl;
 
@@ -22,17 +22,18 @@ public class Main {
     public static final int FIRST_CLASS_NAME_INDEX = 0;
     public static final int SECOND_CLASS_NAME_INDEX = 2;
 
-
     public static void main(String[] args) {
         Map<String, URL> nameToUrlMap = createNameToUrlMap(args);
         if (nameToUrlMap.isEmpty()) {
             return;
         }
 
-        WebDataLoader webDataLoader = new WebDataLoaderImpl();
-        EncryptedBytesDecoder encryptedBytesDecoder = new ClassFileBytesDecoder();
+        URL[] urls = nameToUrlMap.values().toArray(new URL[0]);
 
-        URLClassLoader webClassLoader = new CustomClassloader(webDataLoader, encryptedBytesDecoder, nameToUrlMap);
+        WebDataLoader webDataLoader = new WebDataLoaderImpl();
+        ClassInfoBytesDecoder encryptedBytesDecoder = new ClassInfoBytesDecoderImpl();
+
+        URLClassLoader webClassLoader = new CustomClassloader(webDataLoader, encryptedBytesDecoder, urls);
 
         try {
             Class<?> secretClass = webClassLoader.loadClass(args[FIRST_CLASS_NAME_INDEX]);
