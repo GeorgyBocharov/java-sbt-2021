@@ -7,7 +7,7 @@ import ru.sbt.taxi.entities.Taxi;
 import ru.sbt.taxi.entities.impl.DispatcherImpl;
 import ru.sbt.taxi.entities.impl.OrderCreationServiceImpl;
 import ru.sbt.taxi.entities.impl.OrderExecutorImpl;
-import ru.sbt.taxi.entities.impl.TaxiWithBusyWait;
+import ru.sbt.taxi.entities.impl.TaxiWithLock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Main {
     private static List<Thread> createdTaxiThreads(int number, Dispatcher dispatcher, OrderExecutor orderExecutor) {
         List<Thread> taxiThreads = new ArrayList<>(number);
         for (int i = 0; i < number; i++) {
-            taxiThreads.add(createTaxiThread(new TaxiWithBusyWait(dispatcher, orderExecutor)));
+            taxiThreads.add(createTaxiThread(new TaxiWithLock(dispatcher, orderExecutor)));
         }
         return taxiThreads;
     }

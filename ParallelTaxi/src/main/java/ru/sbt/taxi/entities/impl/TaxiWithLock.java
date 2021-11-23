@@ -23,14 +23,20 @@ public class TaxiWithLock implements Taxi {
 
     @Override
     public void run() {
+        Order localCurrentOrder;
         while (true) {
-            if (waitOrderAssignment()) return;
+            synchronized (lock) {
+                if (waitOrderAssignment()) {
+                    return;
+                }
+                localCurrentOrder = activeOrder;
+                activeOrder = null;
+            }
 
-            System.out.printf("Taxi %d is starting execution of order %s%n", hashCode(), activeOrder);
-            if (orderExecutor.executeOrder(activeOrder)) return;
+            System.out.printf("Taxi %d is starting execution of order %s%n", hashCode(), localCurrentOrder);
+            if (orderExecutor.executeOrder(localCurrentOrder)) return;
 
-            executedOrders.add(activeOrder);
-            activeOrder = null;
+            executedOrders.add(localCurrentOrder);
             System.out.printf("Taxi %d finished execution of order%n", hashCode());
             notifyDispatcher();
         }
@@ -51,15 +57,13 @@ public class TaxiWithLock implements Taxi {
     }
 
     private boolean waitOrderAssignment() {
-        synchronized (lock) {
-            while (activeOrder == null) {
-                System.out.printf("Taxi %s is waiting for order's assignment%n", hashCode());
-                try {
-                    lock.wait();
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                    return true;
-                }
+        while (activeOrder == null) {
+            System.out.printf("Taxi %s is waiting for order's assignment%n", hashCode());
+            try {
+                lock.wait();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+                return true;
             }
         }
         return false;

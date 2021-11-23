@@ -21,19 +21,19 @@ public class DispatcherImpl implements Dispatcher {
 
     @Override
     public void run() {
+        Taxi availableTaxi;
+        Order order;
         while (true) {
             synchronized (availableTaxiQueue) {
                 if (waitForAvailableTaxi()) return;
-                Order order = getNextOrder();
+                order = getNextOrder();
                 if (order == null) {
                     System.out.println("[Dispatcher] Orders ended, skipping");
                     continue;
                 }
-                Taxi availableTaxi = availableTaxiQueue.poll();
-                if (availableTaxi != null) {
-                    availableTaxi.placeOrder(order);
-                }
+                availableTaxi = availableTaxiQueue.poll();
             }
+            availableTaxi.placeOrder(order);
         }
     }
 
