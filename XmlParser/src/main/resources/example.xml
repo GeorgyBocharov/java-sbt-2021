@@ -1,0 +1,27 @@
+<form1>
+    <GenInfo>
+        <Section1>
+            <EmployeeDet>
+                <Title>999990000</Title>
+                <Firstname>MIKE</Firstname>
+                <Surname>SPENCER</Surname>
+                <CoName/>
+                <EmpAdd>
+                    <Address>
+                        <Add1/>
+                        <Add2/>
+                        <Town/>
+                        <County/>
+                        <Pcode/>
+                    </Address>
+                </EmpAdd>
+                <PosHeld>DEVELOPER</PosHeld>
+                <Email/>
+                <ConNo/>
+                <Nationality/>
+                <PPSNo/>
+                <EmpNo/>
+            </EmployeeDet>
+        </Section1>
+    </GenInfo>
+</form1>
