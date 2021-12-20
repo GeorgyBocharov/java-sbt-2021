@@ -1,7 +1,7 @@
 package com;
 
 import com.xml.parser.EmptyTagsRemover;
-import com.xml.parser.impl.EmptyTagsViaRecursionRemover;
+import com.xml.parser.impl.EmptyTagsViaRecursiveRemover;
 import com.xml.parser.impl.EmptyTagsViaRegexRemover;
 import com.xml.parser.impl.EmptyTagsViaStringIterationRemover;
 
@@ -30,7 +30,7 @@ import static com.util.ResourceFileDataLoader.loadFileFromMainResources;
 @State(Scope.Benchmark)
 public class BenchmarkEmptyTagsRemoval {
 
-    private final EmptyTagsRemover emptyTagsViaRecursionRemover = new EmptyTagsViaRecursionRemover();
+    private final EmptyTagsRemover emptyTagsViaRecursionRemover = new EmptyTagsViaRecursiveRemover();
     private final EmptyTagsRemover emptyTagsViaRegexRemover = new EmptyTagsViaRegexRemover();
     private final EmptyTagsRemover emptyTagsViaStringIterationRemover = new EmptyTagsViaStringIterationRemover();
     private String xmlString;

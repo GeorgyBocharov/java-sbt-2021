@@ -2,7 +2,7 @@ package com.xml.parser.impl;
 
 import com.xml.parser.EmptyTagsRemover;
 
-public class EmptyTagsViaRecursionRemover implements EmptyTagsRemover {
+public class EmptyTagsViaRecursiveRemover implements EmptyTagsRemover {
 
     @Override
     public String removeEmptyTags(String xml) {

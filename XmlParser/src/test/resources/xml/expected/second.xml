@@ -1,0 +1,12 @@
+<form1>
+    <GenInfo>
+        <Section1>
+            <EmployeeDet>
+                <Title>999990000</Title>
+                <Firstname>MIKE</Firstname>
+                <Surname>SPENCER</Surname>
+                <PosHeld>DEVELOPER</PosHeld>
+            </EmployeeDet>
+        </Section1>
+    </GenInfo>
+</form1>
